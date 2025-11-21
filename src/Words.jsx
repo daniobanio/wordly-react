@@ -1,3 +1,5 @@
+import wordBank from './data/eng-bank.txt'
+
 // Default value of the board 
 // A matrix (array of arrays)
 // Each array represents a new attempt
@@ -9,3 +11,25 @@ export const boardDefault = [
      ["", "", "", "", ""],
      ["", "", "", "", ""],
 ]
+
+export const generateWordSet = async () => {
+     let wordSet;
+     let correctWord;
+     await fetch(wordBank)
+          .then((res) => res.text())
+          .then((result) => {
+               // Seperate each word in the list into an array
+               // Split by any line ending (\n, \r\n, or \r) and trim whitespace
+               const wordArr = result.split(/\r?\n/)
+                    .map(word => word.trim())  // Remove any trailing/leading whitespace
+                    .filter(word => word.length > 0);  // Remove empty strings
+               
+               //  Turn the array into a set
+               // Like an array but you can't repeat values, no indexes; a data structure
+               wordSet = new Set(wordArr);
+               
+               // Pick a random word and ensure it's trimmed
+               correctWord = wordArr[Math.floor(Math.random() * wordArr.length)].toUpperCase();
+          })
+     return { wordSet, correctWord };
+}

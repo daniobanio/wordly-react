@@ -41,6 +41,10 @@ body {
   @apply w-screen flex items-center pt-[15px] flex-col;
 }
 
+.gameover {
+  @apply text-white text-2xl
+}
+
 .board {
   @apply w-[450px] h-[550px] flex flex-col;
 }

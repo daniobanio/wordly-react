@@ -1,16 +1,28 @@
 import Nav from "./components/Nav";
 import Board from "./components/Board";
 import Keyboard from "./components/Keyboard";
-import { boardDefault } from "./Words";
-import { createContext, useState } from "react";
+import GameOver from "./components/GameOver";
+import { boardDefault, generateWordSet } from "./Words";
+import { createContext, useState, useEffect } from "react";
 
 export const AppContext = createContext();
 
 export default function App() {
   const [board, setBoard] = useState(boardDefault);
   const [currAttempt, setCurrAttempt] = useState({letterPos: 0, attemptVal: 0})
-  
-  const correctWord = "RIGHT";
+  const [wordSet, setWordSet] = useState(new Set());
+  const [disabledLetters, setDisabledLetters] = useState([]);
+  const [correctWord, setCorrectWord] = useState("");
+  const [gameOver, setGameOver] = useState({gameOver: false, guessedWord: false})
+
+  useEffect(() => {
+    generateWordSet()
+      .then((words) => {
+        setWordSet(words.wordSet);
+        setCorrectWord(words.correctWord)
+      })
+  }, [])
+
 
   const onSelectLetter = (keyVal) => {
     // Can't input more than 5 letters
@@ -25,7 +37,31 @@ export default function App() {
   const onEnter = () => {
       // only ENTER if 5 letters
       if (currAttempt.letterPos !== 5) return;
-      // increment attemptVal to move to next line
+
+      let currWord = "";
+      for (let i = 0; i < 5; i++) {
+        currWord += board[currAttempt.attemptVal][i];
+      }
+
+      // Check if word is valid (case-insensitive check against word bank)
+      if (!wordSet.has(currWord.toLowerCase())) {
+        alert('Word not valid')
+        return;
+      }
+
+      // Check if player won (before moving to next attempt)
+      if (currWord === correctWord) {
+        setGameOver({gameOver: true, guessedWord: true})
+        return
+      }
+      
+      // Check if this was the last attempt (attempt 5 = 6th attempt, 0-indexed)
+      if (currAttempt.attemptVal === 5) {
+        setGameOver({gameOver: true, guessedWord: false})
+        return
+      }
+
+      // Word is valid, move to next attempt
       setCurrAttempt({attemptVal: currAttempt.attemptVal + 1, letterPos: 0})
   }
   
@@ -45,10 +81,25 @@ export default function App() {
     <>
       <Nav />
       {/* Through the context API, the board and setBoard states are accessable to all of our components */}
-      <AppContext.Provider value={{ board, setBoard, currAttempt, setCurrAttempt, onSelectLetter, onEnter, onDelete, correctWord}}>
+      <AppContext.Provider value={{ 
+        board, 
+        setBoard, 
+        currAttempt, 
+        setCurrAttempt, 
+        onSelectLetter, 
+        onEnter, 
+        onDelete, 
+        correctWord, 
+        disabledLetters, 
+        setDisabledLetters, 
+        setGameOver, 
+        gameOver,
+
+        }}>
         <div className="game">
           <Board />
           <Keyboard />
+          {gameOver.gameOver && (<GameOver />)}
         </div>
       </AppContext.Provider>
     </>
