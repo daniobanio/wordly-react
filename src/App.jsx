@@ -20,6 +20,7 @@ export default function App() {
       .then((words) => {
         setWordSet(words.wordSet);
         setCorrectWord(words.correctWord)
+        console.log(`Correct Word: ${words.correctWord}`)
       })
   }, [])
 
@@ -51,12 +52,14 @@ export default function App() {
 
       // Check if player won (before moving to next attempt)
       if (currWord === correctWord) {
+        setCurrAttempt({attemptVal: currAttempt.attemptVal + 1, letterPos: 0})
         setGameOver({gameOver: true, guessedWord: true})
         return
       }
       
       // Check if this was the last attempt (attempt 5 = 6th attempt, 0-indexed)
       if (currAttempt.attemptVal === 5) {
+        setCurrAttempt({attemptVal: currAttempt.attemptVal + 1, letterPos: 0})
         setGameOver({gameOver: true, guessedWord: false})
         return
       }

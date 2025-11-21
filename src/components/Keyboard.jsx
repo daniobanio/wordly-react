@@ -7,10 +7,12 @@ const keys2 = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
 const keys3 = ["Z", "X", "C", "V", "B", "N", "M"];
 
 const Keyboard = () => {
-     const {onDelete, onSelectLetter, onEnter, disabledLetters } = useContext(AppContext)
+     const {onDelete, onSelectLetter, onEnter, disabledLetters, gameOver } = useContext(AppContext)
 
      // useCallback to prevent re-updating our components and functions unnecessarily
      const handleKeyboard = useCallback((e) => {
+          if (gameOver.gameOver) return;
+
           if (e.key === "Enter") {
                onEnter();
           } else if (e.key === "Backspace") {
@@ -36,7 +38,7 @@ const Keyboard = () => {
                     }
                })
           }
-     }, [onEnter, onDelete, onSelectLetter])
+     }, [onEnter, onDelete, onSelectLetter, gameOver])
 
 
      useEffect(() => {
