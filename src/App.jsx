@@ -10,6 +10,8 @@ export default function App() {
   const [board, setBoard] = useState(boardDefault);
   const [currAttempt, setCurrAttempt] = useState({letterPos: 0, attemptVal: 0})
   
+  const correctWord = "RIGHT";
+
   const onSelectLetter = (keyVal) => {
     // Can't input more than 5 letters
     if (currAttempt.letterPos > 4) return;
@@ -43,7 +45,7 @@ export default function App() {
     <>
       <Nav />
       {/* Through the context API, the board and setBoard states are accessable to all of our components */}
-      <AppContext.Provider value={{ board, setBoard, currAttempt, setCurrAttempt, onSelectLetter, onEnter, onDelete}}>
+      <AppContext.Provider value={{ board, setBoard, currAttempt, setCurrAttempt, onSelectLetter, onEnter, onDelete, correctWord}}>
         <div className="game">
           <Board />
           <Keyboard />
