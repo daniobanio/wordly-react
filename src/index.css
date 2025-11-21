@@ -1,6 +1,89 @@
 @import "tailwindcss";
 
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
 body {
+  @apply overflow-hidden;
   background-color: #0E0E0E;
   font-family: 'Inter', sans-serif;
+}
+
+.nav {
+  @apply border-b border-[#2F2F2F];
+}
+
+.nav-container {
+  @apply max-w-xl mx-auto flex items-center justify-between px-4 md:px-6 py-4;
+}
+
+.nav-section {
+  @apply flex items-center gap-3 md:gap-4;
+}
+
+.nav-icon {
+  @apply text-white text-3xl;
+}
+
+.nav-icon-desktop {
+  @apply text-white text-3xl hidden md:block;
+}
+
+.nav-title {
+  @apply text-5xl font-bold text-white;
+}
+
+/* Game Layout */
+.game {
+  @apply w-screen flex items-center pt-[15px] flex-col;
+}
+
+.board {
+  @apply w-[450px] h-[550px] flex flex-col;
+}
+
+.row {
+  @apply flex-[33%] flex flex-row m-[5px];
+}
+
+/* Letter Tiles */
+.letter {
+  @apply flex-[33%] h-full border border-gray-500 m-[5px] grid place-items-center text-[30px] font-black text-white font-sans;
+}
+
+/* Tile States */
+#correct {
+  @apply bg-[#528d4e] border-[#528d4e];
+}
+
+#almost {
+  @apply bg-[#b49f39] border-[#b49f39];
+}
+
+#error {
+  @apply bg-[#3a393c] border-[#3a393c];
+}
+
+/* Keyboard */
+.keyboard {
+  @apply w-[700px] h-[300px] mt-[20px];
+}
+
+.line1, .line2, .line3 {
+  @apply flex-[33%] flex flex-row justify-center;
+}
+
+.key {
+  @apply w-[60px] h-[60px] m-[3px] rounded grid place-items-center text-[25px] bg-gray-500 text-white font-sans cursor-pointer hover:opacity-90;
+}
+
+#big {
+  @apply w-[100px] text-[20px];
+}
+
+#disabled {
+  @apply bg-[#3a393c];
 }
