@@ -7,7 +7,13 @@ const keys2 = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
 const keys3 = ["Z", "X", "C", "V", "B", "N", "M"];
 
 const Keyboard = () => {
-     const {onDelete, onSelectLetter, onEnter, disabledLetters, gameOver } = useContext(AppContext)
+     const {onDelete,
+          onSelectLetter,
+          onEnter,
+          disabledLetters,
+          almostLetters,
+          correctLetters,
+          gameOver } = useContext(AppContext)
 
      // useCallback to prevent re-updating our components and functions unnecessarily
      const handleKeyboard = useCallback((e) => {
@@ -53,18 +59,36 @@ const Keyboard = () => {
     <div className="keyboard" onKeyDown={handleKeyboard}>
      <div className="line1">
           {keys1.map((key) => {
-               return <Key keyVal={key} disabled={disabledLetters.includes(key)} />
+               return <Key 
+               key={key}
+               keyVal={key}
+               disabled={disabledLetters.includes(key)}
+               almost={almostLetters.includes(key)}
+               correct={correctLetters.includes(key)}
+               />
           })}
      </div>
      <div className="line2">
           {keys2.map((key) => {
-               return <Key keyVal={key} disabled={disabledLetters.includes(key)}/>
+               return <Key 
+               key={key}
+               keyVal={key}
+               disabled={disabledLetters.includes(key)}
+               almost={almostLetters.includes(key)}
+               correct={correctLetters.includes(key)}
+               />
           })}
      </div>
      <div className="line3">
           <Key keyVal={'ENTER'} bigKey />
           {keys3.map((key) => {
-               return <Key keyVal={key} disabled={disabledLetters.includes(key)}/>
+               return <Key
+               key={key}
+               keyVal={key}
+               disabled={disabledLetters.includes(key)}
+               almost={almostLetters.includes(key)}
+               correct={correctLetters.includes(key)}
+               />
           })}
           <Key keyVal={'DELETE'} bigKey />
      </div>

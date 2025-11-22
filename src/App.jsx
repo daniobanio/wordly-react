@@ -2,6 +2,7 @@ import Nav from "./components/Nav";
 import Board from "./components/Board";
 import Keyboard from "./components/Keyboard";
 import GameOver from "./components/GameOver";
+import HintModal from "./components/HintModal";
 import { boardDefault, generateWordSet } from "./Words";
 import { createContext, useState, useEffect } from "react";
 
@@ -12,8 +13,12 @@ export default function App() {
   const [currAttempt, setCurrAttempt] = useState({letterPos: 0, attemptVal: 0})
   const [wordSet, setWordSet] = useState(new Set());
   const [disabledLetters, setDisabledLetters] = useState([]);
+  const [almostLetters, setAlmostLetters] = useState([]);
+  const [correctLetters, setCorrectLetters] = useState([]);
   const [correctWord, setCorrectWord] = useState("");
   const [gameOver, setGameOver] = useState({gameOver: false, guessedWord: false})
+  const [hints, setHints] = useState(Array(5).fill(null)); // Array to track revealed letters at each position
+  const [showHintModal, setShowHintModal] = useState(false);
 
   useEffect(() => {
     generateWordSet()
@@ -79,6 +84,32 @@ export default function App() {
       setCurrAttempt({...currAttempt, letterPos: currAttempt.letterPos - 1})
   }
 
+  const getHint = () => {
+    if (!correctWord) return;
+    
+    // Find all unrevealed positions
+    const unrevealedPositions = hints
+      .map((hint, index) => hint === null ? index : null)
+      .filter(index => index !== null);
+    
+    // If all hints are revealed, don't do anything
+    if (unrevealedPositions.length === 0) return;
+    
+    // Pick a random unrevealed position
+    const randomIndex = unrevealedPositions[Math.floor(Math.random() * unrevealedPositions.length)];
+    const letter = correctWord[randomIndex];
+    
+    // Update hints array with the revealed letter
+    const newHints = [...hints];
+    newHints[randomIndex] = letter;
+    setHints(newHints);
+    setShowHintModal(true);
+  }
+
+  const closeHintModal = () => {
+    setShowHintModal(false);
+  }
+
 
   return (
     <>
@@ -95,12 +126,20 @@ export default function App() {
         correctWord, 
         disabledLetters, 
         setDisabledLetters, 
+        almostLetters, 
+        setAlmostLetters, 
+        correctLetters, 
+        setCorrectLetters, 
         setGameOver, 
         gameOver,
-
+        hints,
+        showHintModal,
+        closeHintModal,
         }}>
         <div className="game">
+          {showHintModal && <HintModal />}
           <Board />
+          <button className="hint-btn" onClick={getHint}>Hint</button>
           <Keyboard />
           {gameOver.gameOver && (<GameOver />)}
         </div>

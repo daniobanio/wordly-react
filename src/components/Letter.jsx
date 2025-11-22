@@ -4,7 +4,11 @@ import { AppContext } from '../App';
 // letterPos and attemptVal tells us the exact location of the letter in the board
 const Letter = ({ letterPos, attemptVal }) => {
   // Access letter board position
-  const { board, correctWord, currAttempt, setDisabledLetters } = useContext(AppContext)
+  const { board, correctWord, currAttempt, 
+    setDisabledLetters,
+    setAlmostLetters,
+    setCorrectLetters,
+   } = useContext(AppContext)
   const letter = board[attemptVal][letterPos];
 
   const correct = correctWord.toUpperCase()[letterPos] === letter;
@@ -15,13 +19,17 @@ const Letter = ({ letterPos, attemptVal }) => {
   // If yes, this row was submitted, so show the color state (correct/almost/error)
   // If no, the user is still typing on this row, so don't show colors yet (letterState = undefined)
   const letterState =
-     currAttempt.attemptVal > attemptVal && (correct ? "correct" : almost ? "almost" : "error")
+     currAttempt.attemptVal > attemptVal ? (correct ? "correct" : almost ? "almost" : "error") : undefined
 
      useEffect(() => {
-          // Add letter to disabled letters array
+          // Add letter to disabled/almost/correct letters array
           if (letter !== "" && !correct && !almost) {
                // Grab current state (prev) and add letter to the array
                setDisabledLetters((prev) => [...prev, letter])
+          } else if (letter !== "" && !correct) {
+            setAlmostLetters((prev) => [...prev, letter])
+          } else {
+            setCorrectLetters((prev) => [...prev, letter])
           }
      }, [currAttempt.attemptVal])
 

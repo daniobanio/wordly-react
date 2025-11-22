@@ -55,16 +55,16 @@ body {
 
 /* Letter Tiles */
 .letter {
-  @apply flex-[33%] h-full border border-gray-500 m-[5px] grid place-items-center text-[30px] font-black text-white font-sans;
+  @apply flex-[33%] h-full border-[2px] rounded-sm border-[#434343] m-[3px] grid place-items-center text-[45px] font-black text-white;
 }
 
 /* Tile States */
 #correct {
-  @apply bg-[#528d4e] border-[#528d4e];
+  @apply bg-[#31A134] border-[#31A134];
 }
 
 #almost {
-  @apply bg-[#b49f39] border-[#b49f39];
+  @apply bg-[#CFA912] border-[#CFA912];
 }
 
 #error {
@@ -73,7 +73,7 @@ body {
 
 /* Keyboard */
 .keyboard {
-  @apply w-[700px] h-[300px] mt-[20px];
+  @apply w-[700px] h-[300px] mt-2;
 }
 
 .line1, .line2, .line3 {
@@ -81,13 +81,49 @@ body {
 }
 
 .key {
-  @apply w-[60px] h-[60px] m-[3px] rounded grid place-items-center text-[25px] bg-gray-500 text-white font-sans cursor-pointer hover:opacity-90;
+  @apply w-[60px] h-[60px] m-[3px] rounded grid place-items-center text-[30px] bg-[#686868] text-white font-bold cursor-pointer hover:opacity-90;
 }
 
-#big {
+.key.big {
   @apply w-[100px] text-[20px];
 }
 
-#disabled {
+.key.disabled {
   @apply bg-[#3a393c];
+}
+
+.key.almost {
+  @apply bg-[#CFA912];
+}
+
+.key.correct {
+  @apply bg-[#31A134];
+}
+
+.hint-btn {
+  @apply text-white text-2xl font-bold rounded bg-[#0E8800] mt-2 w-[150px] h-[50px] cursor-pointer;
+}
+
+.hint-modal-overlay {
+  @apply fixed inset-0 bg-black/50 flex items-center justify-center z-50;
+}
+
+.hint-modal {
+  @apply flex flex-col items-center justify-between rounded-xl bg-[#1d1d1d] w-[500px] h-[300px] text-center p-5;
+}
+
+.hint-modal h1 {
+  @apply text-white text-4xl font-bold;
+}
+
+.hint-modal button {
+  @apply text-white text-2xl font-bold rounded bg-[#0E8800] w-[150px] h-[50px] cursor-pointer;
+}
+
+.hint-row {
+  @apply flex flex-row items-center justify-center w-full;
+}
+
+.hint-row .letter {
+  @apply flex-1 aspect-square min-w-[70px] min-h-[70px];
 }
