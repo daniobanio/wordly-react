@@ -8,6 +8,29 @@ import { createContext, useState, useEffect } from "react";
 
 export const AppContext = createContext();
 
+// Helper functions for localStorage
+const getStoredStreak = () => {
+  const stored = localStorage.getItem('winStreak');
+  return stored ? parseInt(stored, 10) : 0;
+};
+
+const getStoredHighestStreak = () => {
+  const stored = localStorage.getItem('highestStreak');
+  return stored ? parseInt(stored, 10) : 0;
+};
+
+const updateStreak = (newStreak) => {
+  localStorage.setItem('winStreak', newStreak.toString());
+  const highest = getStoredHighestStreak();
+  if (newStreak > highest) {
+    localStorage.setItem('highestStreak', newStreak.toString());
+  }
+};
+
+const resetStreak = () => {
+  localStorage.setItem('winStreak', '0');
+};
+
 export default function App() {
   const [board, setBoard] = useState(boardDefault);
   const [currAttempt, setCurrAttempt] = useState({letterPos: 0, attemptVal: 0})
@@ -19,6 +42,8 @@ export default function App() {
   const [gameOver, setGameOver] = useState({gameOver: false, guessedWord: false})
   const [hints, setHints] = useState(Array(5).fill(null)); // Array to track revealed letters at each position
   const [showHintModal, setShowHintModal] = useState(false);
+  const [streak, setStreak] = useState(getStoredStreak());
+  const [highestStreak, setHighestStreak] = useState(getStoredHighestStreak());
 
   useEffect(() => {
     generateWordSet()
@@ -57,6 +82,12 @@ export default function App() {
 
       // Check if player won (before moving to next attempt)
       if (currWord === correctWord) {
+        const newStreak = streak + 1;
+        setStreak(newStreak);
+        updateStreak(newStreak);
+        if (newStreak > highestStreak) {
+          setHighestStreak(newStreak);
+        }
         setCurrAttempt({attemptVal: currAttempt.attemptVal + 1, letterPos: 0})
         setGameOver({gameOver: true, guessedWord: true})
         return
@@ -64,6 +95,8 @@ export default function App() {
       
       // Check if this was the last attempt (attempt 5 = 6th attempt, 0-indexed)
       if (currAttempt.attemptVal === 5) {
+        setStreak(0);
+        resetStreak();
         setCurrAttempt({attemptVal: currAttempt.attemptVal + 1, letterPos: 0})
         setGameOver({gameOver: true, guessedWord: false})
         return
@@ -110,6 +143,31 @@ export default function App() {
     setShowHintModal(false);
   }
 
+  const resetGame = () => {
+    const newBoard = [
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+    ];
+    
+    setBoard(newBoard);
+    setCurrAttempt({letterPos: 0, attemptVal: 0});
+    setDisabledLetters([]);
+    setAlmostLetters([]);
+    setCorrectLetters([]);
+    setHints(Array(5).fill(null));
+    setGameOver({gameOver: false, guessedWord: false});
+    generateWordSet()
+      .then((words) => {
+        setWordSet(words.wordSet);
+        setCorrectWord(words.correctWord);
+        console.log(`Correct Word: ${words.correctWord}`);
+      });
+  }
+
 
   return (
     <>
@@ -135,6 +193,9 @@ export default function App() {
         hints,
         showHintModal,
         closeHintModal,
+        streak,
+        highestStreak,
+        resetGame,
         }}>
         <div className="game">
           {showHintModal && <HintModal />}

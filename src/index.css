@@ -55,7 +55,7 @@ body {
 
 /* Letter Tiles */
 .letter {
-  @apply flex-[33%] h-full border-[2px] rounded-sm border-[#434343] m-[3px] grid place-items-center text-[45px] font-black text-white;
+  @apply flex-[33%] h-full border-[2px] rounded-sm border-[#434343] m-[3px] grid place-items-center text-5xl font-black text-white;
 }
 
 /* Tile States */
@@ -81,7 +81,7 @@ body {
 }
 
 .key {
-  @apply w-[60px] h-[60px] m-[3px] rounded grid place-items-center text-[30px] bg-[#686868] text-white font-bold cursor-pointer hover:opacity-90;
+  @apply w-[60px] h-[60px] m-[4px] rounded grid place-items-center text-[30px] bg-[#686868] text-white font-bold cursor-pointer hover:opacity-90;
 }
 
 .key.big {
@@ -104,19 +104,19 @@ body {
   @apply text-white text-2xl font-bold rounded bg-[#0E8800] mt-2 w-[150px] h-[50px] cursor-pointer;
 }
 
-.hint-modal-overlay {
+.modal-overlay {
   @apply fixed inset-0 bg-black/50 flex items-center justify-center z-50;
 }
 
-.hint-modal {
+.modal {
   @apply flex flex-col items-center justify-between rounded-xl bg-[#1d1d1d] w-[500px] h-[300px] text-center p-5;
 }
 
-.hint-modal h1 {
+.modal h1 {
   @apply text-white text-4xl font-bold;
 }
 
-.hint-modal button {
+.modal button {
   @apply text-white text-2xl font-bold rounded bg-[#0E8800] w-[150px] h-[50px] cursor-pointer;
 }
 
@@ -125,5 +125,5 @@ body {
 }
 
 .hint-row .letter {
-  @apply flex-1 aspect-square min-w-[70px] min-h-[70px];
+  @apply flex-1 aspect-square min-w-[70px] min-h-[70px] text-6xl;
 }

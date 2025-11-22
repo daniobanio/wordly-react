@@ -1,4 +1,4 @@
-import wordBank from './data/eng-bank.txt'
+import wordList from './data/eng_wordlist.txt'
 
 // Default value of the board 
 // A matrix (array of arrays)
@@ -15,7 +15,7 @@ export const boardDefault = [
 export const generateWordSet = async () => {
      let wordSet;
      let correctWord;
-     await fetch(wordBank)
+     await fetch(wordList)
           .then((res) => res.text())
           .then((result) => {
                // Seperate each word in the list into an array

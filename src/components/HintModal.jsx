@@ -6,9 +6,9 @@ const HintModal = () => {
 
   return (
     // Click outside the modal to close it
-    <div className="hint-modal-overlay" onClick={closeHintModal}>
+    <div className="modal-overlay" onClick={closeHintModal}>
       {/* Prevent closing the modal when clicking the modal */}
-      <div className="hint-modal" onClick={(e) => e.stopPropagation()}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
         <h1>Hints</h1>
 
         <div className="hint-row">
