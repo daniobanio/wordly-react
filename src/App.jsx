@@ -3,6 +3,7 @@ import Board from "./components/Board";
 import Keyboard from "./components/Keyboard";
 import GameOver from "./components/GameOver";
 import HintModal from "./components/HintModal";
+import LangModal from "./components/LangModal";
 import { boardDefault, generateWordSet } from "./Words";
 import { createContext, useState, useEffect } from "react";
 
@@ -41,7 +42,7 @@ export default function App() {
   const [correctWord, setCorrectWord] = useState("");
   const [gameOver, setGameOver] = useState({gameOver: false, guessedWord: false})
   const [hints, setHints] = useState(Array(5).fill(null)); // Array to track revealed letters at each position
-  const [showHintModal, setShowHintModal] = useState(false);
+  const [modals, setModals] = useState({ hint: false, lang: false })
   const [streak, setStreak] = useState(getStoredStreak());
   const [highestStreak, setHighestStreak] = useState(getStoredHighestStreak());
 
@@ -136,11 +137,16 @@ export default function App() {
     const newHints = [...hints];
     newHints[randomIndex] = letter;
     setHints(newHints);
-    setShowHintModal(true);
+    openModal('hint');
   }
 
-  const closeHintModal = () => {
-    setShowHintModal(false);
+  const openModal = (modal) => {
+    setModals(prev => ({ ...prev, [modal]: true}))
+  }
+
+  const closeModal = (modal) => {
+    setModals(prev => ({ ...prev, [modal]: false}))
+
   }
 
   const resetGame = () => {
@@ -171,7 +177,6 @@ export default function App() {
 
   return (
     <>
-      <Nav />
       {/* Through the context API, the board and setBoard states are accessable to all of our components */}
       <AppContext.Provider value={{ 
         board, 
@@ -191,14 +196,18 @@ export default function App() {
         setGameOver, 
         gameOver,
         hints,
-        showHintModal,
-        closeHintModal,
+        modals,
+        setModals,
+        openModal,
+        closeModal,
         streak,
         highestStreak,
         resetGame,
         }}>
+        <Nav />
         <div className="game">
-          {showHintModal && <HintModal />}
+          {modals.lang && <LangModal />}
+          {modals.hint && <HintModal />}
           <Board />
           <button className="hint-btn" onClick={getHint}>Hint</button>
           <Keyboard />

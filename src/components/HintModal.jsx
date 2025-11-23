@@ -2,11 +2,11 @@ import React, { useContext } from 'react'
 import { AppContext } from '../App'
 
 const HintModal = () => {
-  const { hints, closeHintModal } = useContext(AppContext);
+  const { hints, closeModal } = useContext(AppContext);
 
   return (
     // Click outside the modal to close it
-    <div className="modal-overlay" onClick={closeHintModal}>
+    <div className="modal-overlay" onClick={() => closeModal('hint')}>
       {/* Prevent closing the modal when clicking the modal */}
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <h1>Hints</h1>
@@ -21,7 +21,7 @@ const HintModal = () => {
           ))}
         </div>
 
-        <button onClick={closeHintModal}>Continue</button>
+        <button onClick={() => closeModal('hint')}>Continue</button>
       </div>
     </div>
   )

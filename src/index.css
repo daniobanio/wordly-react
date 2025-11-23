@@ -109,15 +109,19 @@ body {
 }
 
 .modal {
-  @apply flex flex-col items-center justify-between rounded-xl bg-[#1d1d1d] w-[500px] h-[300px] text-center p-5;
+  @apply relative flex flex-col items-center rounded-xl bg-[#1d1d1d] w-[500px] h-[300px] text-center p-5;
 }
 
 .modal h1 {
-  @apply text-white text-4xl font-bold;
+  @apply text-white text-4xl font-bold mb-6 mt-12;
 }
 
 .modal button {
   @apply text-white text-2xl font-bold rounded bg-[#0E8800] w-[150px] h-[50px] cursor-pointer;
+}
+
+button.modal-close-btn {
+  @apply absolute top-4 right-4 text-white text-2xl font-bold rounded bg-[#880000] w-[50px] h-[50px] cursor-pointer;
 }
 
 .hint-row {
@@ -127,3 +131,12 @@ body {
 .hint-row .letter {
   @apply flex-1 aspect-square min-w-[70px] min-h-[70px] text-6xl;
 }
+
+.languages-wrapper {
+  @apply flex flex-row items-center justify-center gap-5;
+}
+
+.language {
+  @apply text-2xl text-white font-bold rounded-sm border-[#434343] border-[2px] p-3 cursor-pointer;
+}
+
