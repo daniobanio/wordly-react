@@ -109,18 +109,26 @@ body {
 }
 
 .modal {
-  @apply relative flex flex-col items-center rounded-xl bg-[#1d1d1d] w-[500px] h-[300px] text-center p-5;
+  @apply relative flex flex-col items-center justify-between rounded-xl bg-[#1d1d1d] w-[500px] h-[300px] text-center p-5;
 }
 
 .modal h1 {
-  @apply text-white text-4xl font-bold mb-6 mt-12;
+  @apply text-white text-4xl font-bold mb-6;
 }
 
 .modal button {
   @apply text-white text-2xl font-bold rounded bg-[#0E8800] w-[150px] h-[50px] cursor-pointer;
 }
 
-button.modal-close-btn {
+.close-modal {
+  @apply relative flex flex-col items-center rounded-xl bg-[#1d1d1d] w-[500px] h-[300px] text-center p-5;
+}
+
+.close-modal h1 {
+  @apply text-white text-4xl font-bold mb-6 mt-12;
+}
+
+.close-modal button {
   @apply absolute top-4 right-4 text-white text-2xl font-bold rounded bg-[#880000] w-[50px] h-[50px] cursor-pointer;
 }
 

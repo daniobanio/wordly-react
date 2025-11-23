@@ -7,8 +7,8 @@ const LangModal = () => {
   return (
     <div className="modal-overlay" onClick={() => closeModal('lang')}>
       {/* Prevent closing the modal when clicking the modal */}
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close-btn" onClick={() => closeModal('lang')}>X</button>
+      <div className="close-modal" onClick={(e) => e.stopPropagation()}>
+        <button onClick={() => closeModal('lang')}>X</button>
 
         <h1>Languages</h1>
         <div className="languages-wrapper">
