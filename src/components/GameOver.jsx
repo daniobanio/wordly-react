@@ -1,12 +1,33 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { AppContext } from '../App'
 
 const GameOver = () => {
-     const {gameOver, correctWord, currAttempt, streak, highestStreak, resetGame, language} = useContext(AppContext)
+  const {gameOver, correctWord, currAttempt, streak, highestStreak, resetGame, language} = useContext(AppContext)
 
   const handlePlayAgain = () => {
     resetGame();
   }
+
+  useEffect(() => {
+    let listenerAdded = false;
+    const handleKeyPress = (event) => {
+      if (event.key === 'Enter') {
+        resetGame();
+      }
+    };
+
+    const timeoutId = setTimeout(() => {
+      window.addEventListener('keydown', handleKeyPress);
+      listenerAdded = true;
+    }, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+      if (listenerAdded) {
+        window.removeEventListener('keydown', handleKeyPress);
+      }
+    };
+  }, [resetGame]);
 
   return (
     <div className="modal-overlay" onClick={handlePlayAgain}>
