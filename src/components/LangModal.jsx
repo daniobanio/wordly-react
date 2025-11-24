@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { AppContext } from '../App'
 
 const LangModal = () => {
-  const { closeModal } = useContext(AppContext);
+  const { closeModal, changeLanguage } = useContext(AppContext);
 
   return (
     <div className="modal-overlay" onClick={() => closeModal('lang')}>
@@ -13,15 +13,9 @@ const LangModal = () => {
         <h1>Languages</h1>
         <div className="languages-wrapper">
           {/* English */}
-          <div className="language">EN</div>
+          <div className="language" onClick={() => changeLanguage('EN')}>EN</div>
           {/* Spanish */}
-          <div className="language">ES</div>
-          {/* French */}
-          <div className="language">FR</div>
-          {/* German */}
-          <div className="language">DE</div>
-          {/* Tagalog */}
-          <div className="language">PH</div>
+          <div className="language" onClick={() => changeLanguage('ES')}>ES</div>
         </div>
       </div>
     </div>

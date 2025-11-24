@@ -5,7 +5,8 @@ import GameOver from "./components/GameOver";
 import HintModal from "./components/HintModal";
 import LangModal from "./components/LangModal";
 import { boardDefault, generateWordSet } from "./Words";
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
+import { languages } from "./constants/languages";
 
 export const AppContext = createContext();
 
@@ -19,6 +20,11 @@ const getStoredHighestStreak = () => {
   const stored = localStorage.getItem('highestStreak');
   return stored ? parseInt(stored, 10) : 0;
 };
+
+const getStoredLanguage = () => {
+  const stored = localStorage.getItem('language');
+  return stored && languages[stored] ? languages[stored] : languages.EN;
+}
 
 const updateStreak = (newStreak) => {
   localStorage.setItem('winStreak', newStreak.toString());
@@ -45,15 +51,36 @@ export default function App() {
   const [modals, setModals] = useState({ hint: false, lang: false })
   const [streak, setStreak] = useState(getStoredStreak());
   const [highestStreak, setHighestStreak] = useState(getStoredHighestStreak());
+  const [language, setLanguage] = useState(getStoredLanguage());
 
-  useEffect(() => {
-    generateWordSet()
+  const resetGame = useCallback(() => {
+    const newBoard = [
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+      ["", "", "", "", ""],
+    ];
+    
+    setBoard(newBoard);
+    setCurrAttempt({letterPos: 0, attemptVal: 0});
+    setDisabledLetters([]);
+    setAlmostLetters([]);
+    setCorrectLetters([]);
+    setHints(Array(5).fill(null));
+    setGameOver({gameOver: false, guessedWord: false});
+    generateWordSet(language.wordList, language.encoding)
       .then((words) => {
         setWordSet(words.wordSet);
-        setCorrectWord(words.correctWord)
-        console.log(`Correct Word: ${words.correctWord}`)
-      })
-  }, [])
+        setCorrectWord(words.correctWord);
+        console.log(`Correct Word: ${words.correctWord}`);
+      });
+  }, [language]);
+
+  useEffect(() => {
+    resetGame();
+  }, [resetGame])
 
 
   const onSelectLetter = (keyVal) => {
@@ -77,7 +104,7 @@ export default function App() {
 
       // Check if word is valid (case-insensitive check against word bank)
       if (!wordSet.has(currWord.toLowerCase())) {
-        alert('Word not valid')
+        alert(language.translations.wordNotValid || 'Word not valid')
         return;
       }
 
@@ -149,31 +176,11 @@ export default function App() {
 
   }
 
-  const resetGame = () => {
-    const newBoard = [
-      ["", "", "", "", ""],
-      ["", "", "", "", ""],
-      ["", "", "", "", ""],
-      ["", "", "", "", ""],
-      ["", "", "", "", ""],
-      ["", "", "", "", ""],
-    ];
-    
-    setBoard(newBoard);
-    setCurrAttempt({letterPos: 0, attemptVal: 0});
-    setDisabledLetters([]);
-    setAlmostLetters([]);
-    setCorrectLetters([]);
-    setHints(Array(5).fill(null));
-    setGameOver({gameOver: false, guessedWord: false});
-    generateWordSet()
-      .then((words) => {
-        setWordSet(words.wordSet);
-        setCorrectWord(words.correctWord);
-        console.log(`Correct Word: ${words.correctWord}`);
-      });
+  const changeLanguage = (langCode) => {
+    localStorage.setItem('language', langCode);
+    setLanguage(languages[langCode]);
+    closeModal('lang');
   }
-
 
   return (
     <>
@@ -203,13 +210,15 @@ export default function App() {
         streak,
         highestStreak,
         resetGame,
+        language,
+        changeLanguage
         }}>
         <Nav />
         <div className="game">
           {modals.lang && <LangModal />}
           {modals.hint && <HintModal />}
           <Board />
-          <button className="hint-btn" onClick={getHint}>Hint</button>
+          <button className="hint-btn" onClick={getHint}>{language.translations.hint}</button>
           <Keyboard />
           {gameOver.gameOver && (<GameOver />)}
         </div>

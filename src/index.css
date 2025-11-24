@@ -73,7 +73,7 @@ body {
 
 /* Keyboard */
 .keyboard {
-  @apply w-[700px] h-[300px] mt-2;
+  @apply w-[1000px] h-[300px] mt-2;
 }
 
 .line1, .line2, .line3 {
@@ -81,11 +81,11 @@ body {
 }
 
 .key {
-  @apply w-[60px] h-[60px] m-[4px] rounded grid place-items-center text-[30px] bg-[#686868] text-white font-bold cursor-pointer hover:opacity-90;
+  @apply w-[60px] h-[60px] m-[4px] rounded grid place-items-center text-center text-[30px] bg-[#686868] text-white font-bold cursor-pointer hover:opacity-90;
 }
 
 .key.big {
-  @apply w-[100px] text-[20px];
+  @apply w-fit px-5;
 }
 
 .key.disabled {
@@ -109,7 +109,7 @@ body {
 }
 
 .modal {
-  @apply relative flex flex-col items-center justify-between rounded-xl bg-[#1d1d1d] w-[500px] h-[300px] text-center p-5;
+  @apply relative flex flex-col items-center justify-between rounded-xl bg-[#1d1d1d] w-[500px] text-center p-5;
 }
 
 .modal h1 {
@@ -117,11 +117,11 @@ body {
 }
 
 .modal button {
-  @apply text-white text-2xl font-bold rounded bg-[#0E8800] w-[150px] h-[50px] cursor-pointer;
+  @apply text-white text-2xl font-bold rounded bg-[#0E8800] w-fit px-2 py-1 mt-5 cursor-pointer;
 }
 
 .close-modal {
-  @apply relative flex flex-col items-center rounded-xl bg-[#1d1d1d] w-[500px] h-[300px] text-center p-5;
+  @apply relative flex flex-col items-center rounded-xl bg-[#1d1d1d] w-[500px] text-center p-5 pb-15;
 }
 
 .close-modal h1 {
