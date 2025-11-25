@@ -148,3 +148,19 @@ body {
   @apply text-2xl text-white font-bold rounded-sm border-[#434343] border-[2px] p-3 cursor-pointer;
 }
 
+@keyframes guessAnimation {
+  0% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+.letter.guess-animating {
+  animation: guessAnimation 0.5s ease-in-out;
+}
+

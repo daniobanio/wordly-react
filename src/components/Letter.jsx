@@ -8,18 +8,22 @@ const Letter = ({ letterPos, attemptVal }) => {
     setDisabledLetters,
     setAlmostLetters,
     setCorrectLetters,
+    animatingRow,
+    revealedLetters,
    } = useContext(AppContext)
   const letter = board[attemptVal][letterPos];
 
   const correct = correctWord.toUpperCase()[letterPos] === letter;
   const almost = !correct && letter !== '' && correctWord.includes(letter)
 
-  // When Enter is pressed, onEnter() increments currAttempt.attemptVal to move to the next row
-  // This checks: "Has the user moved past this row?" (currAttempt.attemptVal > attemptVal)
-  // If yes, this row was submitted, so show the color state (correct/almost/error)
-  // If no, the user is still typing on this row, so don't show colors yet (letterState = undefined)
-  const letterState =
-     currAttempt.attemptVal > attemptVal ? (correct ? "correct" : almost ? "almost" : "error") : undefined
+  // Check if this letter should show its state
+  // Either the row has been completed (moved past) OR it's been revealed during animation
+  const isRevealed = currAttempt.attemptVal > attemptVal || revealedLetters.has(`${attemptVal}-${letterPos}`);
+  const letterState = isRevealed ? (correct ? "correct" : almost ? "almost" : "error") : undefined
+
+  // Check if this letter should be animating
+  const isAnimating = animatingRow === attemptVal;
+  const animationDelay = isAnimating ? letterPos * 0.25 : 0; // 250ms delay between letters
 
      useEffect(() => {
           // Add letter to disabled/almost/correct letters array
@@ -34,7 +38,13 @@ const Letter = ({ letterPos, attemptVal }) => {
      }, [currAttempt.attemptVal])
 
   return (
-    <div className="letter" id={letterState}>{letter}</div>
+    <div 
+      className={`letter ${isAnimating ? 'guess-animating' : ''}`}
+      id={letterState}
+      style={isAnimating ? { animationDelay: `${animationDelay}s` } : {}}
+    >
+      {letter}
+    </div>
   )
 }
 

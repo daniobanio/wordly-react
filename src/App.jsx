@@ -52,6 +52,8 @@ export default function App() {
   const [streak, setStreak] = useState(getStoredStreak());
   const [highestStreak, setHighestStreak] = useState(getStoredHighestStreak());
   const [language, setLanguage] = useState(getStoredLanguage());
+  const [animatingRow, setAnimatingRow] = useState(null);
+  const [revealedLetters, setRevealedLetters] = useState(new Set());
 
   const resetGame = useCallback(() => {
     const newBoard = [
@@ -70,6 +72,8 @@ export default function App() {
     setCorrectLetters([]);
     setHints(Array(5).fill(null));
     setGameOver({gameOver: false, guessedWord: false});
+    setAnimatingRow(null);
+    setRevealedLetters(new Set());
     generateWordSet(language.wordList, language.encoding)
       .then((words) => {
         setWordSet(words.wordSet);
@@ -96,6 +100,8 @@ export default function App() {
   const onEnter = () => {
       // only ENTER if 5 letters
       if (currAttempt.letterPos !== 5) return;
+      // Don't allow new guesses while animation is playing
+      if (animatingRow !== null) return;
 
       let currWord = "";
       for (let i = 0; i < 5; i++) {
@@ -108,30 +114,58 @@ export default function App() {
         return;
       }
 
+      // Trigger animation for current row
+      setAnimatingRow(currAttempt.attemptVal);
+      setRevealedLetters(new Set());
+      
+      const ANIMATION_DURATION = 1500;
+      const LETTER_DELAY = 0.25;
+      const HALFWAY_POINT = 0.25;
+
+      // Reveal each letter's state at the halfway point of its animation
+      for (let i = 0; i < 5; i++) {
+        const revealTime = (i * LETTER_DELAY) + HALFWAY_POINT;
+        setTimeout(() => {
+          setRevealedLetters(prev => new Set([...prev, `${currAttempt.attemptVal}-${i}`]));
+        }, revealTime * 1000);
+      }
+
       // Check if player won (before moving to next attempt)
       if (currWord === correctWord) {
-        const newStreak = streak + 1;
-        setStreak(newStreak);
-        updateStreak(newStreak);
-        if (newStreak > highestStreak) {
-          setHighestStreak(newStreak);
-        }
-        setCurrAttempt({attemptVal: currAttempt.attemptVal + 1, letterPos: 0})
-        setGameOver({gameOver: true, guessedWord: true})
+        setTimeout(() => {
+          const newStreak = streak + 1;
+          setStreak(newStreak);
+          updateStreak(newStreak);
+          if (newStreak > highestStreak) {
+            setHighestStreak(newStreak);
+          }
+          setCurrAttempt({attemptVal: currAttempt.attemptVal + 1, letterPos: 0})
+          setGameOver({gameOver: true, guessedWord: true})
+          setAnimatingRow(null);
+          setRevealedLetters(new Set());
+        }, ANIMATION_DURATION);
         return
       }
       
       // Check if this was the last attempt (attempt 5 = 6th attempt, 0-indexed)
       if (currAttempt.attemptVal === 5) {
-        setStreak(0);
-        resetStreak();
-        setCurrAttempt({attemptVal: currAttempt.attemptVal + 1, letterPos: 0})
-        setGameOver({gameOver: true, guessedWord: false})
+        setTimeout(() => {
+          setStreak(0);
+          resetStreak();
+          setCurrAttempt({attemptVal: currAttempt.attemptVal + 1, letterPos: 0})
+          setGameOver({gameOver: true, guessedWord: false})
+          setAnimatingRow(null);
+          setRevealedLetters(new Set());
+        }, ANIMATION_DURATION);
         return
       }
 
-      // Word is valid, move to next attempt
-      setCurrAttempt({attemptVal: currAttempt.attemptVal + 1, letterPos: 0})
+      // Word is valid, move to next attempt after animation
+      setTimeout(() => {
+        setCurrAttempt({attemptVal: currAttempt.attemptVal + 1, letterPos: 0})
+        setAnimatingRow(null);
+        setRevealedLetters(new Set());
+      }, ANIMATION_DURATION);
   }
   
   const onDelete = () => {
@@ -211,7 +245,9 @@ export default function App() {
         highestStreak,
         resetGame,
         language,
-        changeLanguage
+        changeLanguage,
+        animatingRow,
+        revealedLetters
         }}>
         <Nav />
         <div className="game">
