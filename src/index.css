@@ -13,7 +13,7 @@ body {
 }
 
 .nav {
-  @apply border-b border-[#2F2F2F];
+  @apply border-b border-[#2F2F2F] relative;
 }
 
 .nav-container {
@@ -40,6 +40,18 @@ body {
   @apply text-5xl font-bold text-white;
 }
 
+@media (max-width: 768px) {
+  .nav-title {
+    @apply text-4xl;
+  }
+}
+
+@media (max-width: 460px) {
+  .nav-title {
+    @apply text-[7vw];
+  }
+}
+
 /* Game Layout */
 .game {
   @apply w-screen flex items-center pt-[15px] flex-col;
@@ -53,13 +65,43 @@ body {
   @apply w-[450px] h-[550px] flex flex-col;
 }
 
+@media (max-width: 768px) {
+  .board {
+    @apply h-auto;
+  }
+}
+
+@media (max-width: 460px) {
+  .board {
+    @apply w-[80vw];
+  }
+}
+
 .row {
   @apply flex-[33%] flex flex-row m-[5px];
+}
+
+@media (max-width: 768px) {
+  .row {
+    @apply m-[2px];
+  }
 }
 
 /* Letter Tiles */
 .letter {
   @apply flex-[33%] h-full border-[2px] rounded-sm border-[#434343] m-[3px] grid place-items-center text-5xl font-black text-white;
+}
+
+@media (max-width: 768px) {
+  .letter {
+    @apply aspect-square text-[4xl] m-[2px];
+  }
+}
+
+@media (max-width: 460px) {
+  .letter {
+    @apply aspect-square text-[10vw] m-[2px];
+  }
 }
 
 /* Tile States */
@@ -80,6 +122,12 @@ body {
   @apply w-[1000px] h-[300px] mt-2;
 }
 
+@media (max-width: 768px) {
+  .keyboard {
+    @apply w-full max-w-full h-auto mt-2 px-2;
+  }
+}
+
 .line1, .line2, .line3 {
   @apply flex-[33%] flex flex-row justify-center;
 }
@@ -90,6 +138,16 @@ body {
 
 .key.big {
   @apply w-fit px-5;
+}
+
+@media (max-width: 768px) {
+  .key {
+    @apply w-[10vw] h-[12vw] text-[5vw] m-[0.5vw];
+  }
+  
+  .key.big {
+    @apply px-[5px] text-[5vw];
+  }
 }
 
 .key.disabled {
@@ -105,7 +163,13 @@ body {
 }
 
 .hint-btn {
-  @apply text-white text-2xl font-bold rounded bg-[#0E8800] mt-2 w-[150px] h-[50px] cursor-pointer;
+  @apply text-white text-2xl font-bold rounded bg-[#0E8800] mt-2 w-fit px-10 py-2 cursor-pointer;
+}
+
+@media (max-width: 768px) {
+  .hint-btn {
+    @apply text-[5vw] px-[7vw] py-[1vw];
+  }
 }
 
 .modal-overlay {
@@ -113,15 +177,19 @@ body {
 }
 
 .modal {
-  @apply relative flex flex-col items-center justify-between rounded-xl bg-[#222222] w-[500px] text-center p-5;
+  @apply relative flex flex-col items-center justify-between rounded-xl bg-[#222222] w-[500px] text-center p-5 py-7;
 }
 
 .modal h1 {
-  @apply text-white text-5xl font-bold mb-6;
+  @apply text-white text-5xl font-bold;
+}
+
+.modal p {
+  @apply mt-5;  
 }
 
 .modal button {
-  @apply text-white text-2xl font-bold rounded bg-[#0E8800] w-fit px-2 py-1 mt-5 cursor-pointer;
+  @apply text-white text-2xl font-bold rounded bg-[#0E8800] w-fit px-5 mt-5 py-2 cursor-pointer;
 }
 
 .close-modal {
@@ -136,7 +204,7 @@ body {
   @apply absolute top-4 right-4 text-white text-2xl font-bold rounded bg-[#880000] w-[50px] h-[50px] cursor-pointer;
 }
 
-.disabled{
+.disabled {
   @apply opacity-25 !cursor-not-allowed
 }
 
@@ -152,9 +220,8 @@ body {
   @apply text-white text-3xl font-bold mt-30;
 }
 
-
 .hint-row {
-  @apply flex flex-row items-center justify-center w-full;
+  @apply flex flex-row items-center justify-center w-full mt-5;
 }
 
 .hint-row .letter {
@@ -183,5 +250,22 @@ body {
 
 .letter.guess-animating {
   animation: guessAnimation 0.5s ease-in-out;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  @apply absolute top-full left-0 right-0 bg-[#222222] border-b border-[#2F2F2F] z-40 shadow-lg;
+}
+
+.mobile-menu-item {
+  @apply flex items-center gap-3 px-4 py-4 text-white text-xl cursor-pointer hover:bg-[#2F2F2F] border-b border-[#2F2F2F];
+}
+
+.mobile-menu-item:last-child {
+  @apply border-b-0;
+}
+
+.mobile-menu-icon {
+  @apply text-2xl;
 }
 
