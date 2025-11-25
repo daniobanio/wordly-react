@@ -4,6 +4,7 @@ import Keyboard from "./components/Keyboard";
 import GameOver from "./components/GameOver";
 import HintModal from "./components/HintModal";
 import LangModal from "./components/LangModal";
+import ModesModal from "./components/ModesModal";
 import { boardDefault, generateWordSet } from "./Words";
 import { createContext, useState, useEffect, useCallback } from "react";
 import { languages } from "./constants/languages";
@@ -48,7 +49,7 @@ export default function App() {
   const [correctWord, setCorrectWord] = useState("");
   const [gameOver, setGameOver] = useState({gameOver: false, guessedWord: false})
   const [hints, setHints] = useState(Array(5).fill(null)); // Array to track revealed letters at each position
-  const [modals, setModals] = useState({ hint: false, lang: false })
+  const [modals, setModals] = useState({ hint: false, lang: false, modes: false })
   const [streak, setStreak] = useState(getStoredStreak());
   const [highestStreak, setHighestStreak] = useState(getStoredHighestStreak());
   const [language, setLanguage] = useState(getStoredLanguage());
@@ -251,6 +252,7 @@ export default function App() {
         }}>
         <Nav />
         <div className="game">
+          {modals.modes && <ModesModal />}
           {modals.lang && <LangModal />}
           {modals.hint && <HintModal />}
           <Board />

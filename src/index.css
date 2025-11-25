@@ -28,6 +28,10 @@ body {
   @apply text-white text-3xl;
 }
 
+.nav-icon-mobile {
+  @apply text-white text-3xl block md:hidden;
+}
+
 .nav-icon-desktop {
   @apply text-white text-3xl hidden md:block;
 }
@@ -109,11 +113,11 @@ body {
 }
 
 .modal {
-  @apply relative flex flex-col items-center justify-between rounded-xl bg-[#1d1d1d] w-[500px] text-center p-5;
+  @apply relative flex flex-col items-center justify-between rounded-xl bg-[#222222] w-[500px] text-center p-5;
 }
 
 .modal h1 {
-  @apply text-white text-4xl font-bold mb-6;
+  @apply text-white text-5xl font-bold mb-6;
 }
 
 .modal button {
@@ -121,16 +125,33 @@ body {
 }
 
 .close-modal {
-  @apply relative flex flex-col items-center rounded-xl bg-[#1d1d1d] w-[500px] text-center p-5 pb-15;
+  @apply relative flex flex-col items-center rounded-xl bg-[#222222] min-w-[500px] max-w-fit text-center px-10 pb-15;
 }
 
 .close-modal h1 {
-  @apply text-white text-4xl font-bold mb-6 mt-12;
+  @apply text-white text-5xl font-bold mb-6 mt-12;
 }
 
-.close-modal button {
+.close-modal-btn {
   @apply absolute top-4 right-4 text-white text-2xl font-bold rounded bg-[#880000] w-[50px] h-[50px] cursor-pointer;
 }
+
+.disabled{
+  @apply opacity-25 !cursor-not-allowed
+}
+
+.mode-card {
+  @apply w-[300px] h-[480px] rounded-lg p-5 cursor-pointer;
+}
+
+.mode-card h1 {
+  @apply text-4xl mt-3;
+}
+
+.mode-card p {
+  @apply text-white text-3xl font-bold mt-30;
+}
+
 
 .hint-row {
   @apply flex flex-row items-center justify-center w-full;
