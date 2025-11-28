@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "flag-icons/css/flag-icons.min.css";
 
 * {
   box-sizing: border-box;
@@ -9,7 +10,7 @@
 body {
   @apply overflow-hidden;
   background-color: #0E0E0E;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Instrument Sans', sans-serif;
 }
 
 .nav {
@@ -37,7 +38,7 @@ body {
 }
 
 .nav-title {
-  @apply text-5xl font-bold text-white;
+  @apply text-4xl font-semibold text-white;
 }
 
 @media (max-width: 768px) {
@@ -89,7 +90,7 @@ body {
 
 /* Letter Tiles */
 .letter {
-  @apply flex-[33%] h-full border-[2px] rounded-sm border-[#434343] m-[3px] grid place-items-center text-5xl font-black text-white;
+  @apply flex-[33%] h-full border-[2px] border-[#434343] m-[3px] grid place-items-center text-5xl font-black text-white;
 }
 
 @media (max-width: 768px) {
@@ -133,7 +134,7 @@ body {
 }
 
 .key {
-  @apply w-[60px] h-[60px] m-[4px] rounded grid place-items-center text-center text-[30px] bg-[#686868] text-white font-bold cursor-pointer hover:opacity-90;
+  @apply w-[60px] h-[60px] m-[4px] rounded-sm grid place-items-center text-center text-[30px] bg-[#686868] text-white font-semibold cursor-pointer hover:opacity-90;
 }
 
 .key.big {
@@ -150,7 +151,7 @@ body {
   }
 }
 
-.key.disabled {
+.key.disabledkey {
   @apply bg-[#3a393c];
 }
 
@@ -163,7 +164,7 @@ body {
 }
 
 .hint-btn {
-  @apply text-white text-2xl font-bold rounded bg-[#0E8800] mt-2 w-fit px-10 py-2 cursor-pointer;
+  @apply text-white text-2xl font-semibold rounded bg-[#0E8800] mt-2 w-fit px-10 py-2 cursor-pointer;
 }
 
 @media (max-width: 768px) {
@@ -177,11 +178,11 @@ body {
 }
 
 .modal {
-  @apply relative flex flex-col items-center justify-between rounded-xl bg-[#222222] w-[500px] text-center p-5 py-7;
+  @apply relative flex flex-col items-center justify-between rounded-lg bg-[#222222] w-[500px] text-center p-5 py-7;
 }
 
 .modal h1 {
-  @apply text-white text-5xl font-bold;
+  @apply text-white text-5xl font-semibold mt-2;
 }
 
 .modal p {
@@ -189,19 +190,19 @@ body {
 }
 
 .modal button {
-  @apply text-white text-2xl font-bold rounded bg-[#0E8800] w-fit px-5 mt-5 py-2 cursor-pointer;
+  @apply text-white text-2xl font-semibold rounded bg-[#0E8800] w-fit px-5 mt-5 py-2 cursor-pointer;
 }
 
 .close-modal {
-  @apply relative flex flex-col items-center rounded-xl bg-[#222222] min-w-[500px] max-w-fit text-center px-10 pb-15;
+  @apply relative flex flex-col items-center rounded-lg bg-[#222222] min-w-[500px] max-w-fit text-center px-10 pb-15;
 }
 
 .close-modal h1 {
-  @apply text-white text-5xl font-bold mb-6 mt-12;
+  @apply text-white text-5xl font-semibold mb-6 mt-12;
 }
 
 .close-modal-btn {
-  @apply absolute top-4 right-4 text-white text-2xl font-bold rounded bg-[#880000] w-[50px] h-[50px] cursor-pointer;
+  @apply absolute top-4 right-4 text-white text-2xl font-semibold rounded bg-[#FF3131] w-[45px] aspect-square cursor-pointer;
 }
 
 .disabled {
@@ -217,7 +218,7 @@ body {
 }
 
 .mode-card p {
-  @apply text-white text-3xl font-bold mt-30;
+  @apply text-white text-3xl font-semibold mt-30;
 }
 
 .hint-row {
@@ -233,7 +234,11 @@ body {
 }
 
 .language {
-  @apply text-2xl text-white font-bold rounded-sm border-[#434343] border-[2px] p-3 cursor-pointer;
+  @apply text-2xl text-white font-semibold rounded-sm border-[#434343] border-[2px] p-3 cursor-pointer;
+}
+
+.fi {
+  @apply ml-2 text-2xl;
 }
 
 @keyframes guessAnimation {

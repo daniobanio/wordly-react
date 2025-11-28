@@ -17,7 +17,7 @@ const Key = ({ keyVal, bigKey, disabled, almost, correct, label }) => {
   const keyClasses = [
     "key",
     bigKey && "big",
-    disabled && "disabled",
+    disabled && "disabledkey",
     almost && "almost",
     correct && "correct"
   ].filter(Boolean).join(" ");

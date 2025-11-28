@@ -1,5 +1,11 @@
 import React, { useContext, useEffect } from 'react'
 import { AppContext } from '../App'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+library.add(fas, far, fab)
 
 const GameOver = () => {
   const {gameOver, correctWord, currAttempt, streak, highestStreak, resetGame, language} = useContext(AppContext)
@@ -19,7 +25,7 @@ const GameOver = () => {
     const timeoutId = setTimeout(() => {
       window.addEventListener('keydown', handleKeyPress);
       listenerAdded = true;
-    }, 100);
+    }, 1000);
 
     return () => {
       clearTimeout(timeoutId);
@@ -39,13 +45,13 @@ const GameOver = () => {
       </div>
 
       <div>
-          <p className="text-xl font-bold text-white">{language.translations.streak}</p>
-          <h1>🔥 {streak}</h1>
+          <p className="text-xl font-semibold text-white">{language.translations.streak}</p>
+          <h1><FontAwesomeIcon icon="fa-solid fa-fire" style={{color: "#ff811a",}} />{streak}</h1>
       </div>
 
       <div>
-          <p className="text-sm text-white">{language.translations.bestStreak}</p>
-          <h2 className="text-2xl font-bold text-white">{highestStreak}</h2>
+          <p className="text-lg text-white">{language.translations.bestStreak}</p>
+          <h2 className="text-2xl text-white">{highestStreak}</h2>
       </div>
 
       <button onClick={handlePlayAgain}>{language.translations.playAgain}</button>

@@ -9,6 +9,13 @@ import { boardDefault, generateWordSet } from "./Words";
 import { createContext, useState, useEffect, useCallback } from "react";
 import { languages } from "./constants/languages";
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+library.add(fas, far, fab)
+
 export const AppContext = createContext();
 
 // Helper functions for localStorage
@@ -144,7 +151,7 @@ export default function App() {
           setGameOver({gameOver: true, guessedWord: true})
           setAnimatingRow(null);
           setRevealedLetters(new Set());
-        }, ANIMATION_DURATION);
+        }, (ANIMATION_DURATION + 100));
         return
       }
       
@@ -188,8 +195,8 @@ export default function App() {
       .map((hint, index) => hint === null ? index : null)
       .filter(index => index !== null);
     
-    // If all hints are revealed, don't do anything
-    if (unrevealedPositions.length === 0) return;
+    // If all hints are revealed
+    if (unrevealedPositions.length === 0) return openModal('hint');
     
     // Pick a random unrevealed position
     const randomIndex = unrevealedPositions[Math.floor(Math.random() * unrevealedPositions.length)];
@@ -256,7 +263,7 @@ export default function App() {
           {modals.lang && <LangModal />}
           {modals.hint && <HintModal />}
           <Board />
-          <button className="hint-btn" onClick={getHint}>{language.translations.hint}</button>
+          <button className="hint-btn" onClick={getHint}><FontAwesomeIcon icon="fa-solid fa-lightbulb" /> {language.translations.hint}</button>
           <Keyboard />
           {gameOver.gameOver && (<GameOver />)}
         </div>

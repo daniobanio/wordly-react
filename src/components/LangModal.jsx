@@ -13,9 +13,9 @@ const LangModal = () => {
         <h1>Languages</h1>
         <div className="languages-wrapper">
           {/* English */}
-          <div className="language" onClick={() => changeLanguage('EN')}>EN</div>
+          <div className="language" onClick={() => changeLanguage('EN')}>English <span class="fi fi-us"></span></div>
           {/* Spanish */}
-          <div className="language" onClick={() => changeLanguage('ES')}>ES</div>
+          <div className="language" onClick={() => changeLanguage('ES')}>Spanish <span class="fi fi-es"></span></div>
         </div>
       </div>
     </div>
