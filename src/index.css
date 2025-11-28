@@ -63,13 +63,7 @@ body {
 }
 
 .board {
-  @apply w-[450px] h-[550px] flex flex-col;
-}
-
-@media (max-width: 768px) {
-  .board {
-    @apply h-auto;
-  }
+  @apply w-[40vh] h-auto flex flex-col;
 }
 
 @media (max-width: 460px) {
@@ -90,12 +84,12 @@ body {
 
 /* Letter Tiles */
 .letter {
-  @apply flex-[33%] h-full border-[2px] border-[#434343] m-[3px] grid place-items-center text-5xl font-black text-white;
+  @apply aspect-square flex-[33%] h-full border-[2px] border-[#434343] m-[3px] grid place-items-center text-[4vh] font-black text-white;
 }
 
 @media (max-width: 768px) {
   .letter {
-    @apply aspect-square text-[4xl] m-[2px];
+    @apply text-[4xl] m-[2px];
   }
 }
 
@@ -115,12 +109,12 @@ body {
 }
 
 #error {
-  @apply bg-[#3a393c] border-[#3a393c];
+  @apply bg-[#333333] border-[#333333];
 }
 
 /* Keyboard */
 .keyboard {
-  @apply w-[1000px] h-[300px] mt-2;
+  @apply mt-2;
 }
 
 @media (max-width: 768px) {
@@ -130,11 +124,11 @@ body {
 }
 
 .line1, .line2, .line3 {
-  @apply flex-[33%] flex flex-row justify-center;
+  @apply flex flex-row justify-center;
 }
 
 .key {
-  @apply w-[60px] h-[60px] m-[4px] rounded-sm grid place-items-center text-center text-[30px] bg-[#686868] text-white font-semibold cursor-pointer hover:opacity-90;
+  @apply w-[60px] h-[60px] m-[5px] rounded-sm grid place-items-center text-center text-[30px] bg-[#585858] text-white font-semibold cursor-pointer hover:opacity-90;
 }
 
 .key.big {
@@ -152,7 +146,7 @@ body {
 }
 
 .key.disabledkey {
-  @apply bg-[#3a393c];
+  @apply bg-[#333333];
 }
 
 .key.almost {
