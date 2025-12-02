@@ -1,12 +1,18 @@
 import React, { useContext } from 'react'
 import { AppContext } from '../App'
+import { playSound } from '../utils/sounds';
 
 const HintModal = () => {
   const { hints, closeModal, language } = useContext(AppContext);
 
+  const handleClose = () => {
+    playSound('modalClose');
+    closeModal('hint');
+  };
+
   return (
     // Click outside the modal to close it
-    <div className="modal-overlay" onClick={() => closeModal('hint')}>
+    <div className="modal-overlay" onClick={handleClose}>
       {/* Prevent closing the modal when clicking the modal */}
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <h1>{language.translations.hintsTitle}</h1>
@@ -21,7 +27,7 @@ const HintModal = () => {
           ))}
         </div>
 
-        <button onClick={() => closeModal('hint')}>{language.translations.continue}</button>
+        <button onClick={handleClose}>{language.translations.continue}</button>
       </div>
     </div>
   )

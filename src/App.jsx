@@ -10,6 +10,7 @@ import { isOnboardingCompleted } from "./constants/onboardingData";
 import { boardDefault, generateWordSet } from "./Words";
 import { createContext, useState, useEffect, useCallback } from "react";
 import { languages } from "./constants/languages";
+import { playSound } from "./utils/sounds";
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -96,7 +97,6 @@ export default function App() {
     resetGame();
   }, [resetGame])
 
-  // Check if onboarding should be shown on page load
   useEffect(() => {
     if (!isOnboardingCompleted()) {
       openModal('onboarding');
@@ -127,6 +127,7 @@ export default function App() {
 
       // Check if word is valid (case-insensitive check against word bank)
       if (!wordSet.has(currWord.toLowerCase())) {
+        playSound('error');
         alert(language.translations.wordNotValid || 'Word not valid')
         return;
       }
@@ -160,7 +161,7 @@ export default function App() {
           setGameOver({gameOver: true, guessedWord: true})
           setAnimatingRow(null);
           setRevealedLetters(new Set());
-        }, (ANIMATION_DURATION + 100));
+        }, (ANIMATION_DURATION + 500));
         return
       }
       
@@ -215,6 +216,7 @@ export default function App() {
     const newHints = [...hints];
     newHints[randomIndex] = letter;
     setHints(newHints);
+    playSound('hint');
     openModal('hint');
   }
 
@@ -233,12 +235,10 @@ export default function App() {
     closeModal('lang');
   }
 
-  // Check if onboarding should be shown on page load
   useEffect(() => {
     if (!isOnboardingCompleted()) {
       openModal('onboarding');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

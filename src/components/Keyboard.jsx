@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useContext } from 'react'
 import Key from './Key';
 import { AppContext } from '../App';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { playSound } from '../utils/sounds';
 
 const Keyboard = () => {
      const {onDelete,
@@ -21,8 +22,10 @@ const Keyboard = () => {
           if (gameOver.gameOver) return;
 
           if (e.key === "Enter") {
+               playSound('keyPress');
                onEnter();
           } else if (e.key === "Backspace") {
+               playSound('keyPress');
                onDelete();
 
           // Typing a letter
@@ -31,6 +34,7 @@ const Keyboard = () => {
           } else {
                [...line1, ...line2, ...line3].forEach((key) => {
                     if (e.key.toLowerCase() === key.toLowerCase()) {
+                         playSound('keyPress');
                          onSelectLetter(key)
                     }
                })

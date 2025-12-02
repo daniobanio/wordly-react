@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { AppContext } from '../App'
+import { playSound } from '../utils/sounds';
 
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
@@ -19,8 +20,18 @@ const Nav = () => {
   };
 
   const handleMenuOptionClick = (modal) => {
+    playSound('iconClick');
     openModal(modal);
     setMobileMenuOpen(false);
+  };
+
+  const handleIconClick = (modal) => {
+    playSound('iconClick');
+    openModal(modal);
+  };
+
+  const handleIconHover = () => {
+    playSound('iconHover');
   };
 
   // Close menu when clicking outside
@@ -50,13 +61,15 @@ const Nav = () => {
           <FontAwesomeIcon 
             icon="fa-regular fa-circle-question" 
             className="nav-icon" 
-            onClick={() => openModal('onboarding')}
+            onClick={() => handleIconClick('onboarding')}
+            onMouseEnter={handleIconHover}
             style={{ cursor: 'pointer' }}
           />
           <FontAwesomeIcon 
             icon="fa-solid fa-earth-americas" 
             className="nav-icon-desktop" 
-            onClick={() => openModal('lang')}
+            onClick={() => handleIconClick('lang')}
+            onMouseEnter={handleIconHover}
             style={{ cursor: 'pointer' }}
           />
         </div>
@@ -65,16 +78,25 @@ const Nav = () => {
           <FontAwesomeIcon 
             icon="fa-solid fa-bars-staggered" 
             className="nav-icon-mobile" 
-            onClick={handleMobileMenuClick}
+            onClick={() => {
+              playSound('iconClick');
+              handleMobileMenuClick();
+            }}
+            onMouseEnter={handleIconHover}
             style={{ cursor: 'pointer' }}
           />
           <FontAwesomeIcon 
             icon="fa-solid fa-dice" 
             className="nav-icon-desktop"
-            onClick={() => openModal('modes')}  
+            onClick={() => handleIconClick('modes')}  
+            onMouseEnter={handleIconHover}
             style={{ cursor: 'pointer'}}
           />
-          <FontAwesomeIcon icon="fa-solid fa-chart-simple" className="nav-icon-desktop" />
+          <FontAwesomeIcon 
+            icon="fa-solid fa-chart-simple" 
+            className="nav-icon-desktop"
+            onMouseEnter={handleIconHover}
+          />
         </div>
       </div>
       {mobileMenuOpen && (

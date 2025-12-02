@@ -1,4 +1,13 @@
+import { playSound } from '../../utils/sounds';
+
 const OnboardingStep = ({ step, onNext, onBack, isFirst, isLast }) => {
+  const handleNext = () => {
+    if (isLast) {
+      playSound('onboardComplete');
+    }
+    onNext();
+  };
+
   return (
     <div className="modal-overlay">
       <div className="onboarding-modal">
@@ -23,7 +32,7 @@ const OnboardingStep = ({ step, onNext, onBack, isFirst, isLast }) => {
               Back
             </button>
           )}
-          <button onClick={onNext}>
+          <button onClick={handleNext}>
             {isLast ? 'Get Started' : 'Next'}
           </button>
         </div>
