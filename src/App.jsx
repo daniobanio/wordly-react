@@ -6,6 +6,7 @@ import HintModal from "./components/HintModal";
 import LangModal from "./components/LangModal";
 import ModesModal from "./components/ModesModal";
 import Onboarding from "./components/onboarding/Onboarding";
+import ErrorAlert from "./components/ErrorAlert";
 import { isOnboardingCompleted } from "./constants/onboardingData";
 import { boardDefault, generateWordSet } from "./Words";
 import { createContext, useState, useEffect, useCallback } from "react";
@@ -65,6 +66,8 @@ export default function App() {
   const [language, setLanguage] = useState(getStoredLanguage());
   const [animatingRow, setAnimatingRow] = useState(null);
   const [revealedLetters, setRevealedLetters] = useState(new Set());
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorRow, setErrorRow] = useState(null);
 
   const resetGame = useCallback(() => {
     const newBoard = [
@@ -85,6 +88,8 @@ export default function App() {
     setGameOver({gameOver: false, guessedWord: false});
     setAnimatingRow(null);
     setRevealedLetters(new Set());
+    setErrorMessage(null);
+    setErrorRow(null);
     generateWordSet(language.wordList, language.encoding)
       .then((words) => {
         setWordSet(words.wordSet);
@@ -104,6 +109,17 @@ export default function App() {
   }, [])
 
 
+  const showError = useCallback((message, rowIndex) => {
+    playSound('error');
+    setErrorMessage(message);
+    setErrorRow(rowIndex);
+    
+    setTimeout(() => {
+      setErrorMessage(null);
+      setErrorRow(null);
+    }, 1000);
+  }, []);
+
   const onSelectLetter = (keyVal) => {
     // Can't input more than 5 letters
     if (currAttempt.letterPos > 4) return;
@@ -113,24 +129,27 @@ export default function App() {
     setBoard(newBoard);
     // {attemptVal, letterPos}
     setCurrAttempt({...currAttempt, letterPos: currAttempt.letterPos + 1})
-    } 
+  } 
+  
   const onEnter = () => {
-      // only ENTER if 5 letters
-      if (currAttempt.letterPos !== 5) return;
-      // Don't allow new guesses while animation is playing
-      if (animatingRow !== null) return;
+    if (animatingRow !== null) return;
 
-      let currWord = "";
-      for (let i = 0; i < 5; i++) {
-        currWord += board[currAttempt.attemptVal][i];
-      }
+    // Check if user has entered 5 letters
+    if (currAttempt.letterPos !== 5) {
+      showError(language.translations.notEnoughLetters || 'Not enough letters!', currAttempt.attemptVal);
+      return;
+    }
 
-      // Check if word is valid (case-insensitive check against word bank)
-      if (!wordSet.has(currWord.toLowerCase())) {
-        playSound('error');
-        alert(language.translations.wordNotValid || 'Word not valid')
-        return;
-      }
+    let currWord = "";
+    for (let i = 0; i < 5; i++) {
+      currWord += board[currAttempt.attemptVal][i];
+    }
+
+    // Check if word is valid
+    if (!wordSet.has(currWord.toLowerCase())) {
+      showError(language.translations.wordNotValid || 'Word not valid!', currAttempt.attemptVal);
+      return;
+    }
 
       // Trigger animation for current row
       setAnimatingRow(currAttempt.attemptVal);
@@ -276,10 +295,13 @@ export default function App() {
         language,
         changeLanguage,
         animatingRow,
-        revealedLetters
+        revealedLetters,
+        errorMessage,
+        errorRow
         }}>
         <Nav />
         <div className="game">
+          <ErrorAlert />
           <Onboarding 
             key={modals.onboarding ? 'open' : 'closed'}
             isOpen={modals.onboarding} 

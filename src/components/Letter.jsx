@@ -11,6 +11,7 @@ const Letter = ({ letterPos, attemptVal }) => {
     setCorrectLetters,
     animatingRow,
     revealedLetters,
+    errorRow,
    } = useContext(AppContext)
   const letter = board[attemptVal][letterPos];
 
@@ -26,6 +27,9 @@ const Letter = ({ letterPos, attemptVal }) => {
   const isAnimating = animatingRow === attemptVal;
   const animationDelay = isAnimating ? letterPos * 0.25 : 0; // 250ms delay between letters
   const hasPlayedFlipSound = useRef(false);
+  
+  // Check if this row has an error
+  const hasError = errorRow === attemptVal;
 
   useEffect(() => {
     if (isAnimating && !hasPlayedFlipSound.current && letter !== '') {
@@ -58,7 +62,7 @@ const Letter = ({ letterPos, attemptVal }) => {
 
   return (
     <div 
-      className={`letter ${isAnimating ? 'guess-animating' : ''}`}
+      className={`letter ${isAnimating ? 'guess-animating' : ''} ${hasError ? 'error-animation' : ''}`}
       id={letterState}
       style={isAnimating ? { animationDelay: `${animationDelay}s` } : {}}
     >

@@ -79,7 +79,25 @@ body {
 
 /* Letter Tiles */
 .letter {
-  @apply aspect-square flex-[33%] h-full border-[2px] border-[#4B4B4B] m-[3px] grid place-items-center text-[4vh] font-black text-white;
+  @apply aspect-square flex-[33%] rounded h-full border-[2px] border-[#4B4B4B] m-[4px] grid place-items-center text-[4vh] font-black text-white;
+}
+
+@keyframes errorAnimation {
+  0% {}
+  25% {
+    transform: scale(0.98);
+    background-color: #ff0f0f25;
+    border-color: #FF3131;
+  }
+  75% {
+    background-color: #ff0f0f25;
+    border-color: #FF3131;
+  }
+  100% {}
+}
+
+.letter.error-animation {
+  animation: errorAnimation 1s;
 }
 
 @media (max-width: 768px) {
@@ -282,5 +300,30 @@ body {
 
 .mobile-menu-icon {
   @apply text-2xl;
+}
+
+.error-message {
+  @apply absolute top-52/100 items-center rounded-lg border-1 border-[#4B4B4B] bg-[#222222] w-fit text-center px-6 py-3 text-3xl text-white font-semibold z-10 drop-shadow-md/75;
+}
+.error-message.errorAlertAnimation {
+  animation: errorAlertAnimation 1s ease-in-out;
+}
+
+@keyframes errorAlertAnimation {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  25% {
+    transform:scale(1);
+    opacity: 100;
+  }
+  75% {
+    transform:scale(1);
+    opacity: 100;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
