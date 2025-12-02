@@ -47,7 +47,12 @@ const Nav = () => {
     <nav className="nav" ref={menuRef}>
       <div className="nav-container">
         <div className="nav-section">
-          <FontAwesomeIcon icon="fa-regular fa-circle-question" className="nav-icon" />
+          <FontAwesomeIcon 
+            icon="fa-regular fa-circle-question" 
+            className="nav-icon" 
+            onClick={() => openModal('onboarding')}
+            style={{ cursor: 'pointer' }}
+          />
           <FontAwesomeIcon 
             icon="fa-solid fa-earth-americas" 
             className="nav-icon-desktop" 

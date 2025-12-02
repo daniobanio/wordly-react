@@ -5,6 +5,8 @@ import GameOver from "./components/GameOver";
 import HintModal from "./components/HintModal";
 import LangModal from "./components/LangModal";
 import ModesModal from "./components/ModesModal";
+import Onboarding from "./components/onboarding/Onboarding";
+import { isOnboardingCompleted } from "./constants/onboardingData";
 import { boardDefault, generateWordSet } from "./Words";
 import { createContext, useState, useEffect, useCallback } from "react";
 import { languages } from "./constants/languages";
@@ -56,7 +58,7 @@ export default function App() {
   const [correctWord, setCorrectWord] = useState("");
   const [gameOver, setGameOver] = useState({gameOver: false, guessedWord: false})
   const [hints, setHints] = useState(Array(5).fill(null)); // Array to track revealed letters at each position
-  const [modals, setModals] = useState({ hint: false, lang: false, modes: false })
+  const [modals, setModals] = useState({ hint: false, lang: false, modes: false, onboarding: false })
   const [streak, setStreak] = useState(getStoredStreak());
   const [highestStreak, setHighestStreak] = useState(getStoredHighestStreak());
   const [language, setLanguage] = useState(getStoredLanguage());
@@ -93,6 +95,13 @@ export default function App() {
   useEffect(() => {
     resetGame();
   }, [resetGame])
+
+  // Check if onboarding should be shown on page load
+  useEffect(() => {
+    if (!isOnboardingCompleted()) {
+      openModal('onboarding');
+    }
+  }, [])
 
 
   const onSelectLetter = (keyVal) => {
@@ -224,6 +233,14 @@ export default function App() {
     closeModal('lang');
   }
 
+  // Check if onboarding should be shown on page load
+  useEffect(() => {
+    if (!isOnboardingCompleted()) {
+      openModal('onboarding');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <>
       {/* Through the context API, the board and setBoard states are accessable to all of our components */}
@@ -249,6 +266,10 @@ export default function App() {
         setModals,
         openModal,
         closeModal,
+        resetOnboarding: () => {
+          localStorage.removeItem('onboardingCompleted');
+          openModal('onboarding');
+        },
         streak,
         highestStreak,
         resetGame,
@@ -259,6 +280,11 @@ export default function App() {
         }}>
         <Nav />
         <div className="game">
+          <Onboarding 
+            key={modals.onboarding ? 'open' : 'closed'}
+            isOpen={modals.onboarding} 
+            onClose={() => closeModal('onboarding')} 
+          />
           {modals.modes && <ModesModal />}
           {modals.lang && <LangModal />}
           {modals.hint && <HintModal />}

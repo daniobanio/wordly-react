@@ -73,23 +73,18 @@ body {
 }
 
 .row {
-  @apply flex-[33%] flex flex-row m-[5px];
+  @apply flex-[33%] flex flex-row;
 }
 
-@media (max-width: 768px) {
-  .row {
-    @apply m-[2px];
-  }
-}
 
 /* Letter Tiles */
 .letter {
-  @apply aspect-square flex-[33%] h-full border-[2px] border-[#434343] m-[3px] grid place-items-center text-[4vh] font-black text-white;
+  @apply aspect-square flex-[33%] h-full border-[2px] border-[#4B4B4B] m-[3px] grid place-items-center text-[4vh] font-black text-white;
 }
 
 @media (max-width: 768px) {
   .letter {
-    @apply text-[4xl] m-[2px];
+    @apply text-[4xl] m-[3px];
   }
 }
 
@@ -168,11 +163,15 @@ body {
 }
 
 .modal-overlay {
-  @apply fixed inset-0 bg-black/50 flex items-center justify-center z-50;
+  @apply fixed inset-0 bg-black/80 flex items-center justify-center z-50;
+}
+
+.modal, .close-modal, .onboarding-modal {
+  @apply border-1 border-[#4B4B4B]
 }
 
 .modal {
-  @apply relative flex flex-col items-center justify-between rounded-lg bg-[#222222] w-[500px] text-center p-5 py-7;
+  @apply relative flex flex-col items-center justify-between rounded-lg bg-[#222222] min-w-[500px] max-w-fit text-center p-5 py-7;
 }
 
 .modal h1 {
@@ -186,6 +185,23 @@ body {
 .modal button {
   @apply text-white text-2xl font-semibold rounded bg-[#0E8800] w-fit px-5 mt-5 py-2 cursor-pointer;
 }
+
+.onboarding-modal {
+    @apply relative flex flex-col items-center justify-between rounded-lg bg-[#222222] w-[600px] h-[500px] text-center p-5 py-7;
+}
+
+.onboarding-modal h1 {
+  @apply text-white text-5xl font-semibold mt-2;
+}
+
+.onboarding-modal p {
+  @apply mt-5;  
+}
+
+.onboarding-modal button {
+  @apply text-white text-2xl font-semibold rounded bg-[#0E8800] w-fit px-5 mt-5 py-2 cursor-pointer;
+}
+
 
 .close-modal {
   @apply relative flex flex-col items-center rounded-lg bg-[#222222] min-w-[500px] max-w-fit text-center px-10 pb-15;
@@ -228,7 +244,7 @@ body {
 }
 
 .language {
-  @apply text-2xl text-white font-semibold rounded-sm border-[#434343] border-[2px] p-3 cursor-pointer;
+  @apply text-2xl text-white font-semibold rounded-sm border-[#4B4B4B] border-1 p-3 cursor-pointer;
 }
 
 .fi {

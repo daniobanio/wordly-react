@@ -16,6 +16,7 @@ export const generateWordSet = async (wordListUrl, encoding = 'utf-8') => {
      await fetch(wordListUrl)
           .then((res) => res.arrayBuffer())
           .then((buffer) => {
+               // Use TextDecoder for reading the word list files
                const decoder = new TextDecoder(encoding);
                const result = decoder.decode(buffer);
 
